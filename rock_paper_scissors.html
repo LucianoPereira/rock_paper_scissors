@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style>
+		body {background-color: #f2f2f2;}
+		h1,h2,h3  {
+			color: #e60000;
+			text-align: center;
+
+		}
+		p {
+			text-align: center;
+			color: #b30000;
+			margin-left: 3px;
+		}
+
+		.centered_text {
+			text-align: center;
+		}
+
+		#title {
+			display: flex;
+			justify-content: center;
+		}
+		img {	
+			width: 250px; 
+			height: 250px;
+		}
+		button {
+			margin-left: 20px;
+			text-align: center;
+		}
+		#rock {
+			background: url(https://upload.wikimedia.org/wikipedia/commons/f/f1/Dwayne_Johnson_2%2C_2013.jpg);
+			background-size: 250px 250px;
+			width: 250px; 
+			height: 250px;
+
+		}
+		#paper {
+			background: url(https://i1.rgstatic.net/publication/236647188_How_to_Write_Your_First_Scientific_Paper/links/0deec518a4f9d796f8000000/largepreview.png);
+			background-size: 250px 250px;
+			width: 250px; 
+			height: 250px;
+		}
+		#scissors {
+			background: url(http://img404.imageshack.us/img404/2357/jcqfevs1bw.jpg);
+			background-size: 250px 250px;
+			width: 250px; 
+			height: 250px;
+		}
+		#score {
+			margin: 20px;
+		}
+
+		#playAgain {
+
+		}
+		#playAgain:hover {	
+			background:#cccccc;
+		}
+	</style>
+
+	<title>Rock Paper Scissors Game</title>
+	<meta charset="UTF-8"/>
+</head>
+<body>
+	<div id="title">
+		<h1>Rock Paper Scissors Game</h1>
+	</div>
+	<div id="subtitle">
+		<strong><h2>Choose one!</h2></strong>
+	</div>
+	<div id="main-content">
+		<div id="buttons" style="display: flex; justify-content: center;">
+			<div>
+				<button id="rock"></button>
+				<p>Rock</p>
+			</div>
+			<div>
+				<button id="paper"></button>
+				<p>Paper</p>
+
+			</div>
+			<div>
+				<button id="scissors"></button>
+				<p>Scissors</p>
+
+			</div>
+		</div>
+		<div id="score" style="display: flex; justify-content: center;">
+			<strong><p>Your score: </p></strong>
+			<strong id="userValue"><p> 0 </p></strong>
+			<p></p>
+			<p></p>
+			<strong><p>computer's score: </p></strong>
+			<strong id="computerValue"><p>0</p></strong>
+		</div>
+		<div class="centered_text">
+			<button id="playAgain"><p>Play Again</p></button>
+		</div>
+	</body>
+	</html>
+
+
+	<script>
+
+		//Global score variables
+		var userScore = 0;
+		var computerScore = 0;
+
+		const rock = document.querySelector("#rock");
+		rock.addEventListener('click', function(){
+			game("rock");
+		});
+		const paper = document.querySelector("#paper");
+		paper.addEventListener('click', function(){
+			game("paper")
+		});
+		const scissors = document.querySelector("#scissors");
+		scissors.addEventListener('click', function(){
+			game("scissors")
+		});
+		const playAgainElem = document.querySelector("#playAgain");
+		playAgainElem.addEventListener('click', playAgain);
+
+
+		function showUserScore(score){
+			const userScoreElem = document.querySelector("#userValue");
+			userScoreElem.textContent = score;
+		}
+		function showComputerScore(score){
+			const computerScoreElem = document.querySelector("#computerValue");
+			computerScoreElem.textContent = score;
+		}
+
+		function playAgain(){
+			userScore = 0;
+			computerScore = 0;
+			showUserScore(userScore);
+			showComputerScore(computerScore);
+		}
+
+		function computerPlay(){
+			let choices = ['rock', 'paper', 'scissors'];
+			play = Math.floor(Math.random() * choices.length);
+			return choices[play];
+		}
+		function gameRound(userChoice, computerChoice){
+			userChoice = userChoice.toLowerCase();
+			switch(userChoice){
+				case "rock":
+				if(computerChoice == "rock"){
+					return `It\'s a Tie! You both picked ${userChoice}`;
+				}
+				else if (computerChoice == "paper"){
+					return `You loose! The computer picked ${computerChoice}`;
+				}
+				else{
+					return `You win! The computer picked ${computerChoice}`;
+				}
+				break;
+				case "paper":
+				if(computerChoice == "rock"){
+					return `You win! The computer picked ${computerChoice}`;
+				}
+				else if (computerChoice == "paper"){
+					return `It\'s a Tie! You both picked ${userChoice}`;
+				}
+				else{
+					return `You loose! The computer picked ${computerChoice}`;
+				}
+				break;
+				case "scissors":
+				if(computerChoice == "rock"){
+					return `You loose! The computer picked ${computerChoice}`;
+				}
+				else if (computerChoice == "paper"){
+					return `You win! The computer picked ${computerChoice}`;
+				}
+				else{
+					return `It\'s a Tie! You both picked ${userChoice}`;
+				}
+				break;
+				default:
+				return "Invalid input";
+			}
+		}
+		
+		function game(userPlay){
+			result = gameRound(userPlay, computerPlay());
+			if(userScore < 5 && computerScore < 5 ){
+				alert(result);
+				if(result.includes("win")){
+					userScore++;
+					showUserScore(userScore);
+				}
+				else if (result.includes("loose")){
+					if(computerScore < 5){
+						computerScore++;
+						showComputerScore(computerScore);
+					}
+				}		
+			}
+
+		}
+
+	</script>
